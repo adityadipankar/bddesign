@@ -3,109 +3,13 @@
 
 <head>
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-    <title>Saavn Demo</title>
+    <title>BillDesk Design</title>
     <style type="text/css">
-        body {
-            text-align: center;
-            background: #fff;
-            color: #444;
-        }
-
-        #logo {
-            max-height: 80px;
-            max-width: 240px
-        }
-
-        #loading {
-            height: 40px;
-        }
-
-        #container {
-            margin-top: 120px;
-        }
-
-        #container,
-        p {
-            text-align: center;
-        }
-
-        button {
-            padding: 10px;
-        }
     </style>
     <script type="text/javascript" src="/authRequest/lib.js"></script>
 </head>
 
 <body>
-    <h1>Demo home page of Saavn</h1>
-    <div id=container>
-        <img id=logo src="https://www.saavn.com/static/_i/3.0/solid-saavn.svg" />
-        <p>Welcome</p>
-        <p id=phone></p>
-        <p id=login><button onclick="login();">Login</button></a>
-        </p>
-        <p id=console></p>
-    </div>
+    <h1>BillDesk Design</h1>
 </body>
-<script type="text/javascript">
-    function log(str) {
-        document.getElementById("console").innerHTML = str;
-    }
-
-    function sendPost(endpoint, data, callback) {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            if (this.readyState == 4) {
-                if (this.status >= 500) {
-                    callback(this.status);
-                }
-                else {
-                    if (this.status == 200) {
-                        callback(null, JSON.parse(this.responseText));
-                    }
-                    else {
-                        callback(this.status);
-                    }
-                }
-            }
-        };
-        xhttp.open("POST", endpoint, true);
-        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        xhttp.send(JSON.stringify(data));
-    }
-
-    function login() {
-        /* global identifymeInit */
-        identifymeInit({
-            origin: window.location.origin,
-            clientId: 1,
-            callback: onIdentifymeLogin,
-            clientLogo: "https://www.saavn.com/static/_i/3.0/solid-saavn.svg",
-            themeColor: "#f6f6f6",
-            ctaColor: "#30b55a",
-            countryCode: 91,
-            enablePushNotification: 0
-        });
-    }
-
-    function onIdentifymeLogin(report) {
-        log("Report: " + report);
-        sendPost('/client/login', {
-            encryptedReport: report
-        }, function(err, response) {
-            if (err) log(err);
-            else {
-                var str = "+" + response.countryCode + " " + response.phone;
-                document.getElementById("phone").innerHTML = str;
-                log("login complete");
-            }
-        });
-    }
-
-    /* global checkReportOnLoad */
-    checkReportOnLoad({
-        callback: onIdentifymeLogin
-    });
-</script>
-
 </html>
